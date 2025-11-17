@@ -1,3 +1,5 @@
+Ecs = require "ecs"
+
 
 -- components
 function PositionComponent(x,y)
@@ -97,3 +99,41 @@ world:AddSystem(PrintPositionSystem())
 world:AddSystem(PrintNameSystem())
 
 world:UseSystems()
+
+print()
+
+
+local component1 = Ecs.CreateComponent("position", {x=5,y=0})
+
+for index, value in pairs(component1) do
+    print(index)
+    print(value)
+end
+
+print(component1.x)
+
+
+print()
+local tab1 = {}
+local tab2 = {}
+
+tab1.comp = component1
+tab2.comp = component1
+
+print(tab1.comp.x)
+tab2.comp.x = 6
+print(tab1.comp.x)
+component1.x = 8
+print(tab1.comp.x)
+
+print()
+
+table.insert(tab1.comp,component1)
+tab2.comp = component1
+tab1.comp.x = 0
+
+print(tab1.comp.x)
+tab2.comp.x = 6
+print(tab1.comp.x)
+component1.x = 8
+print(tab1.comp.x)
