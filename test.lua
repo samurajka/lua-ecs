@@ -30,3 +30,17 @@ for key, value in pairs(world.position) do
 end
 
 print(entity1)
+
+
+local function PrintPos(entity)
+    print(entity.position.x)
+    print(entity.position.y)
+end
+
+local system1 = Ecs.CreateSystem("position", PrintPos)
+
+
+world:AttachSystem(system1)
+
+print("using sysstems:")
+world:UseSystems()
