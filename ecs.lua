@@ -58,8 +58,42 @@ ecs.CreateEntity = defCreateEntity
 local function defAttachComponent(entity, component)
     entity[component.tag] = copyTable(component)
 end
+-- TODO make this a method of entity
 
 ecs.AttachComponent = defAttachComponent
+
+
+local function defAttachEntity(self, entity)
+    table.insert(self.allEntities, entity)
+
+    for key, value in pairs(entity) do
+        if key == "id" then
+            goto continue
+        end
+
+        if self[key] == nil then
+            self[key] = {}
+        end
+
+        table.insert(self[key], entity)
+
+        ::continue::
+    end
+end
+
+
+local function defCreateWorld()
+    local world = {}
+
+    world.allEntities = {}
+    world.AttachEntity = defAttachEntity
+
+    return world
+end
+
+ecs.CreateWorld = defCreateWorld
+
+
 
 
 return ecs

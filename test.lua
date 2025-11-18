@@ -9,3 +9,24 @@ for index, value in pairs(component1) do
 end
 
 print(component1.x)
+
+
+local world = Ecs.CreateWorld()
+
+
+local entity1 = Ecs.CreateEntity()
+
+Ecs.AttachComponent(entity1, component1)
+
+world:AttachEntity(entity1)
+
+for key, value in pairs(world) do
+    print(key)
+end
+
+for key, value in pairs(world.position) do
+    print(key)
+    print(value)
+end
+
+print(entity1)
