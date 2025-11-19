@@ -16,13 +16,16 @@ local world = Ecs.CreateWorld()
 
 local entity1 = Ecs.CreateEntity()
 
-Ecs.AttachComponent(entity1, component1)
+
+entity1:AttachComponent(component1)
 
 world:AttachEntity(entity1)
 
+print()
 for key, value in pairs(world) do
     print(key)
 end
+print()
 
 for key, value in pairs(world.position) do
     print(key)

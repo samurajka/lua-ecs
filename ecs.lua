@@ -64,15 +64,24 @@ end
 
 ecs.CreateEntity = defCreateEntity
 
--- TODO remove this and only allow calling as a method from entity
-ecs.AttachComponent = defAttachComponent
 
+local ignore = {
+    id=true,
+    AttachComponent=true,
+    AttachSystem=true,
+    AttachEntity=true,
+    UseSystems=true
+}
 
+-- TODO: "self" should be changed to "world" for consistency
+--- Inserts an entity into the world
+--- @param self table the world you insert into
+--- @param entity table the entity you insert
 local function defAttachEntity(self, entity)
     table.insert(self.allEntities, entity)
 
     for key, value in pairs(entity) do
-        if key == "id" then
+        if ignore[key] ~= nil then
             goto continue
         end
 
@@ -87,6 +96,10 @@ local function defAttachEntity(self, entity)
 end
 
 
+--- Creates a new system
+--- @param tag string what component does the system work with
+--- @param func function function that the system will call passing an entity with the *tag* component into it
+--- @return table system
 local function defCreateSystem(tag, func)
     local system = {}
 
@@ -100,11 +113,15 @@ end
 ecs.CreateSystem = defCreateSystem
 
 
+--- Inserts a system into the world
+--- @param world table world to insert into
+--- @param system table the system to insert
 local function defAttachSystem(world, system)
     table.insert(world.allSystems, system)
 end
 
-
+--- Use all systems in the world on entities in the world
+--- @param world table the world
 local function defUseSystems(world)
     for _, system in pairs(world.allSystems) do
         for _, entity in pairs(world[system.tag]) do
@@ -114,6 +131,8 @@ local function defUseSystems(world)
 end
 
 
+--- Creates a new world that stores systems and entities
+--- @return table world
 local function defCreateWorld()
     local world = {}
 
@@ -129,8 +148,6 @@ local function defCreateWorld()
 end
 
 ecs.CreateWorld = defCreateWorld
-
-
 
 
 
